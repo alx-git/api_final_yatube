@@ -23,7 +23,10 @@ class Post(models.Model):
     image = models.CharField(blank=True, max_length=1000, null=True)
 
     def __str__(self):
-        return self.text
+        return self.text[0:100]
+
+    class Meta:
+        ordering = ('pub_date',)
 
 
 class Comment(models.Model):
@@ -46,7 +49,6 @@ class Follow(models.Model):
         User,
         on_delete=models.CASCADE,
         related_name='following',
-        null=True
     )
 
     class Meta:
