@@ -1,5 +1,4 @@
 from rest_framework import filters, mixins, viewsets
-from rest_framework.generics import get_object_or_404
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import IsAuthenticated
 
@@ -32,11 +31,11 @@ class CommentViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthorOrReadOnly]
 
     def get_queryset(self):
-        post = get_object_or_404(Post, pk=self.kwargs['post_id'])
+        post = Post.objects.get(pk=self.kwargs['post_id'])
         return post.comments
 
     def perform_create(self, serializer):
-        post = get_object_or_404(Post, pk=self.kwargs['post_id'])
+        post = Post.objects.get(pk=self.kwargs['post_id'])
         serializer.save(
             author=self.request.user,
             post=post
